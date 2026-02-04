@@ -9,7 +9,13 @@ var indexRouter = require("./routes/index");
 var app = express();
 
 const cors = require("cors");
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
+  }),
+);
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -18,5 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
+
+app.options("*", cors());
 
 module.exports = app;
